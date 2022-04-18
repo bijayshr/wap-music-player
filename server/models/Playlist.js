@@ -50,24 +50,33 @@ module.exports = class Playlist{
         throw new Error('Playlist Not Found');
     }
 
-    static addInPlaylist(userId, songs){
-        let isPlaylistExist = playlists.findIndex(p=>p.userId = userId);
+    addInPlaylist(){
+        let isPlaylistExist = playlists.findIndex(p=>p.userId == this.userId);
         if(isPlaylistExist > -1){
-            console.log('Updating playlist for user :: ', userId);
-            playlists[isPlaylistExist].songs= songs;
+            console.log('Updating playlist for user :: ', this.userId);
+            playlists[isPlaylistExist].songs= this.songs;
+            return playlists[isPlaylistExist];
         }else{
-            console.log('Creating new Playlist for user :: ', userId);
-            const newPlaylist = new Playlist(userId, []);
-            songs.forEach(s=>newPlaylist.songs.push(s));
-            playlists.push(newPlaylist);
-            console.log(playlists);
+            console.log('Original playlist :: ', playlists);
+            playlists.push(this);
         }
-        return playlists;
+        console.log('Final playlist :: ', playlists);
+        return playlists[playlists.length-1];
     }
 
     static getPlaylistsByUserId(userId){
         console.debug('Getting Playlist for User ID :: ', userId);
-        return playlists.filter(p=>p.userId == userId)[0];
+        let playlist = playlists.filter(p => p.userId == userId)[0];
+        if(playlist === undefined){
+            return [];
+        }
+        console.log('Output :: ', playlist);
+        return playlist;
+    }
+
+    static getPlaylist(){
+        console.log('Playlist size :: ', playlists.length)
+        return playlists;
     }
 
 }

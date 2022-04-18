@@ -30,6 +30,8 @@ module.exports = class Songs{
     }
 
     static findSongById(songId){
+        console.log('calling ... find song by id');
+        console.log('song id :: ', songId);
        const isSongExist = songs.findIndex(s=>s.songId == songId);
        if(isSongExist > -1){
            return songs[isSongExist];

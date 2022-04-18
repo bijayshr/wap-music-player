@@ -7,10 +7,18 @@ exports.findPlaylistByUserId = (req, res, next)=>{
 exports.addInPlaylist = (req, res)=>{
     let userId = req.params.userId;
     let songs = req.body.songs;
-    res.status(200).json(Playlist.addInPlaylist(userId, songs));
+    const newPlaylist = new Playlist(userId, songs);
+    const response =newPlaylist.addInPlaylist();
+    res.status(200).json(response);
 }
 
 exports.getPlaylistsByUserId = (req, res) =>{
     let userId = req.params.userId;
-    res.status(200).json(Playlist.getPlaylistsByUserId(userId));
+    const response =Playlist.getPlaylistsByUserId(userId);
+    res.status(200).json(response);
+}
+
+exports.getPlaylists = (req, res) =>{
+    const response =Playlist.getPlaylist();
+    res.status(200).json(response);
 }
