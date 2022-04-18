@@ -29,7 +29,7 @@ module.exports = class Playlist{
 
     static findPlaylistByUserId(userId){
         console.log('finding playlist for user:: ', userId);
-        const isPlaylistExist = playlists.findIndex(p=>p.userId == userId);
+        const isPlaylistExist = playlists.findIndex(p=>p.userId === userId);
         if(isPlaylistExist > -1){
             return playlists[isPlaylistExist];
         }
@@ -37,7 +37,7 @@ module.exports = class Playlist{
     }
 
     addSongInPlaylist(){
-        let isPlaylistExist = playlists.findIndex(p=>p.userId == this.userId);
+        let isPlaylistExist = playlists.findIndex(p=>p.userId === this.userId);
         if(isPlaylistExist > -1){
             console.log('Updating playlist for user :: ', this.userId);
             playlists[isPlaylistExist].songs= this.songs;
@@ -52,7 +52,7 @@ module.exports = class Playlist{
 
     static getPlaylistsByUserId(userId){
         console.debug('Getting Playlist for User ID :: ', userId);
-        let playlist = playlists.filter(p => p.userId == userId)[0];
+        let playlist = playlists.filter(p => p.userId === userId)[0];
         if(playlist === undefined){
             return [];
         }
@@ -63,6 +63,19 @@ module.exports = class Playlist{
     static getPlaylist(){
         console.log('Playlist size :: ', playlists.length)
         return playlists;
+    }
+
+    static removeSongFromPlaylistByUserId(userId, songId){
+        let isPlaylistExist = playlists.findIndex(p=>p.userId == userId);
+        if(isPlaylistExist > -1){
+            let songArr = playlists[isPlaylistExist].songs;
+            let isSongIndex = songArr.findIndex(song=>song.songId == songId);
+            if(isSongIndex > -1){
+                songArr.splice(isSongIndex, 1);
+                return playlists[isPlaylistExist];
+            }
+        }
+        throw new Error('Song doesn\'t exist for the user.');
     }
 
 }
