@@ -1,10 +1,11 @@
 const User = require('./User');
-const stringGenerator = require('../utils/StringGenerator');
+const StringUtil = require('../utils/StringGenerator');
 const john = new User(1, 'John', 'Snow', 'john', 'john');
 const denerys = new User(2, 'Denerys', 'Targarian', 'deneris', 'deneris');
 const sam = new User(3, 'Samwell', 'Tarley', 'sam', 'sam');
+const a = new User(4, 'a', 'a', 'a', 'a');
 
-let auth = [john, denerys, sam];
+let auth = [john, denerys, sam, a];
 
 module.exports = class UserAuth {
 
@@ -17,10 +18,11 @@ module.exports = class UserAuth {
         let isExistUser = auth.findIndex(a => a.username === this.username);
         if (isExistUser > -1) {
             if (auth[isExistUser].username === this.password) {
-                console.log('validated!')
-                return stringGenerator(this.username);
+                let generatedString = StringUtil.generateString(this.username);
+                console.log('Gen Key: ', generatedString);
+                return generatedString;
             }
-            throw new Error('Username not Found')
+            throw new Error('Incorrect Username or Password.')
 
         }
     }

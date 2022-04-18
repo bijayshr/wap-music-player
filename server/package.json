@@ -4,7 +4,7 @@
   "description": "CS472-WAP Project on Node.js",
   "main": "app.js",
   "scripts": {
-      "start": "PORT=3000 ENV=DEVELOPMENT nodemon app.js",
+    "start": "PORT=3000 ENV=DEVELOPMENT nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/bijayshr/wap-music-player#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2"
   }
 }
