@@ -1,38 +1,24 @@
 const Songs = require('./Songs');
-/*
-let playlists = [
-    {
-        "userId":1,
-        "songs":[
-            {
-                "title":"Joker and the Queen",
-                "songId":1
-            },
-            {
-                "title":"For You",
-                "songId":3
-            }
-        ]
-    },
-    {
-        "userId": 2,
-        "songs": [
-            {
-                "title":"Assassin",
-                "songId":2
-            },
-            {
-                "title":"Joker and the Queen",
-                "songId":1
-            },
-            {
-                "title":"For You",
-                "songId":3
-            }
-        ]
-    }
-];
-
+/**
+ *
+ * RESPONSE SAMPLE OF PLAYLIST
+ *
+ *
+let playlist = [
+        {
+            "userId": "3",
+            "songs":[
+                {
+                    "title":"Assassin",
+                    "songId":2
+                },
+                {
+                    "title":"Joker and The Queen",
+                    "songId":2
+                }
+            ]
+        }
+    ];
 */
 let playlists = [];
 module.exports = class Playlist{
@@ -50,7 +36,7 @@ module.exports = class Playlist{
         throw new Error('Playlist Not Found');
     }
 
-    addInPlaylist(){
+    addSongInPlaylist(){
         let isPlaylistExist = playlists.findIndex(p=>p.userId == this.userId);
         if(isPlaylistExist > -1){
             console.log('Updating playlist for user :: ', this.userId);
