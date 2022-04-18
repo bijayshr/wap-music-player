@@ -1,0 +1,26 @@
+{
+  "name": "wap-music-player",
+  "version": "1.0.0",
+  "description": "CS472-WAP Project on Node.js",
+  "main": "app.js",
+  "scripts": {
+      "start": "PORT=3004 ENV=DEVELOPMENT nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bijayshr/wap-music-player.git"
+  },
+  "keywords": [
+    "wap-music-player"
+  ],
+  "author": "Bijay Shrestha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bijayshr/wap-music-player/issues"
+  },
+  "homepage": "https://github.com/bijayshr/wap-music-player#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
