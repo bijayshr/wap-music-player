@@ -1,25 +1,10 @@
-const Songs = require('../models/Songs');
-const UserAuth = require('../models/UserAuth');
-const path = require('path');
+const Song = require('../models/Song');
 
-exports.getSongs = (req, res, next)=>{
-    if(UserAuth.findUsernameBySecret(req.headers['secret'])){
-        if(req.query.title){
-            let title = req.query.title.toLowerCase();
-            res.status(200).json(Songs.findSongByTitle(title));
-        }
-        res.status(200).json(Songs.getSongs());
+exports.findAll = (req,res,next) => {
+    let query = req.query.searchQuery;
+    if(query!=null || query!=undefined){
+        res.status(200).json(Song.searchQuery(query));
+    } else {
+        res.status(200).json(Song.findAll());
     }
-    throw new Error('User Not Allowed');
-   
-}
-
-exports.getSongById = (req, res)=>{
-    let songId = req.params.songId;
-    res.status(200).json(Songs.findSongById(songId));
-}
-
-exports.showSongPage = (req, res) =>{
-    const songPage = path.join(__dirname, "..","..", "client", "dashboard.html");
-    res.status(200).sendfile(songPage);
 }
