@@ -51,13 +51,12 @@ module.exports = class Playlist{
     }
 
     static getPlaylistsByUsername(username){
-        console.debug('Getting Playlist for User ID :: ', username);
-        let playlist = playlists.filter(p => p.username === username)[0];
-        if(playlist === undefined){
-            return [];
+        let isPlaylistExist = playlists.findIndex(p=>p.username === username);
+        if(isPlaylistExist > -1){
+            return playlists[isPlaylistExist];
+        }else{
+            return new Playlist(username, []);
         }
-        console.log('Output :: ', playlist);
-        return playlist;
     }
 
     static getPlaylist(){

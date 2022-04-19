@@ -60,7 +60,7 @@ window.onload = function () {
 
     async function getPlaylistsByUserId() {
         let playlistByUserIdArr = [];
-        playlistByUserIdArr = await fetch('http://localhost:3000/wap/playlists/users/', {
+        playlistByUserIdArr = await fetch('http://localhost:3000/wap/playlists/', {
             method: 'GET',
             headers:{
                 'secret':sessionStorage.getItem('secret')
