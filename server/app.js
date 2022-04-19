@@ -6,13 +6,9 @@ app.use(cors());
 
 app.use(express.json());
 
-const userRouter = require('./routes/userRouter');
-const songRouter = require('./routes/songRouter');
-const playlistRouter = require('./routes/playlistRouter');
-const dashboardRouter = require('./routes/dashboardRouter');
-const path = require("path");
-const UserAuth = require('./models/UserAuth');
 
+
+const path = require("path");
 
 
 app.all('/*', (req, res, next) => {
@@ -20,13 +16,20 @@ app.all('/*', (req, res, next) => {
     console.log('secret :: ', secret);
     if (!UserAuth.isAuthenticated(secret)) {
         return res.status(400).send("Invalid Request.");
-    } 
-next();
+    }
+    next();
 });
+const UserAuth = require('./models/UserAuth');
+const dashboardRouter = require('./routes/dashboardRouter');
+const userRouter = require('./routes/userRouter');
+const songRouter = require('./routes/songRouter');
+const playlistRouter = require('./routes/playlistRouter');
+
 app.use('/wap/users', userRouter);
 app.use('/wap/songs', songRouter);
 app.use('/wap/playlists', playlistRouter);
 app.use('/wap/dashboard', dashboardRouter);
+
 
 
 app.use((err, req, res, next) => {

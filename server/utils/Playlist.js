@@ -68,7 +68,7 @@ module.exports = class Playlist{
         let isPlaylistExist = playlists.findIndex(p=>p.username == username);
         if(isPlaylistExist > -1){
             let songArr = playlists[isPlaylistExist].songs;
-            let isSongIndex = songArr.findIndex(song=>song.songId == songId);
+            let isSongIndex = songArr.findIndex(song=>song.id == songId);
             if(isSongIndex > -1){
                 songArr.splice(isSongIndex, 1);
                 return playlists[isPlaylistExist];
