@@ -6,7 +6,7 @@ const Songs = require('./Songs');
  *
 let playlist = [
         {
-            "userId": "3",
+            "username": "3-1231241",
             "songs":[
                 {
                     "title":"Assassin",
@@ -22,14 +22,14 @@ let playlist = [
 */
 let playlists = [];
 module.exports = class Playlist{
-    constructor(userId, songs) {
-        this.userId = userId;
+    constructor(username, songs) {
+        this.username = username;
         this.songs = songs;
     }
 
-    static findPlaylistByUserId(userId){
-        console.log('finding playlist for user:: ', userId);
-        const isPlaylistExist = playlists.findIndex(p=>p.userId === userId);
+    static findPlaylistByUsername(username){
+        console.log('finding playlist for user:: ', username);
+        const isPlaylistExist = playlists.findIndex(p=>p.username === username);
         if(isPlaylistExist > -1){
             return playlists[isPlaylistExist];
         }
@@ -37,9 +37,9 @@ module.exports = class Playlist{
     }
 
     addSongInPlaylist(){
-        let isPlaylistExist = playlists.findIndex(p=>p.userId === this.userId);
+        let isPlaylistExist = playlists.findIndex(p=>p.username === this.username);
         if(isPlaylistExist > -1){
-            console.log('Updating playlist for user :: ', this.userId);
+            console.log('Updating playlist for user :: ', this.username);
             playlists[isPlaylistExist].songs= this.songs;
             return playlists[isPlaylistExist];
         }else{
@@ -50,9 +50,9 @@ module.exports = class Playlist{
         return playlists[playlists.length-1];
     }
 
-    static getPlaylistsByUserId(userId){
-        console.debug('Getting Playlist for User ID :: ', userId);
-        let playlist = playlists.filter(p => p.userId === userId)[0];
+    static getPlaylistsByUsername(username){
+        console.debug('Getting Playlist for User ID :: ', username);
+        let playlist = playlists.filter(p => p.username === username)[0];
         if(playlist === undefined){
             return [];
         }
@@ -65,8 +65,8 @@ module.exports = class Playlist{
         return playlists;
     }
 
-    static removeSongFromPlaylistByUserId(userId, songId){
-        let isPlaylistExist = playlists.findIndex(p=>p.userId == userId);
+    static removeSongFromPlaylistByUsername(username, songId){
+        let isPlaylistExist = playlists.findIndex(p=>p.username == username);
         if(isPlaylistExist > -1){
             let songArr = playlists[isPlaylistExist].songs;
             let isSongIndex = songArr.findIndex(song=>song.songId == songId);

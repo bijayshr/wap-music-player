@@ -48,6 +48,7 @@ module.exports = class Songs{
     }
 
     static findSongByTitle(title){
+        console.log('title :: ', title);
         return songs.filter(song => song.title.toLowerCase().includes(title));
     }
 

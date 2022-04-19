@@ -3,77 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
-    <script>
-        window.onload = function(){
-            let songs = [];
-            let playlistByUserIdArr = [];
-            getInterestedSongsList();
-            getPlaylistsByUserId();
-
-            async function getInterestedSongsList() {
-                songs = await fetch('http://localhost:3000/wap/songs')
-                    .then(response => response.json())
-                    .then(data => {
-                        songs = data
-                        return songs;
-                    });
-
-                let interestSongTbl = document.getElementById("interest-song-tbl");
-                let tblText = "";
-                tblText = "<tr><th>Id</th><th>Song Title</th><th>Release Date</th><th>Actions</th></tr>";
-                for (let i = 0; i < songs.length; i++) {
-                    tblText += "<tr>";
-                    tblText += "<td>" + songs[i].songId + "</td>";
-                    tblText += "<td>" + songs[i].title + "</td>";
-                    tblText += "<td>" + songs[i].releaseDate + "</td>";
-                    tblText += "<td>" + "<button id='addToPlaylist' type='button' class='btn' onclick='addToPlaylist(this)'>" + "Add" + "</button>" + "</td>";
-                    tblText += "</tr>";
-                }
-                interestSongTbl.innerHTML = tblText;
-            };
-
-            async function getPlaylistsByUserId() {
-                playlistByUserIdArr = await fetch('http://localhost:3000/wap/playlists/users/'+2)
-                    .then(response => response.json())
-                    .then(data => {
-                        playlistByUserIdArr = data
-                        console.log('playlist ------', playlistByUserIdArr)
-                        return playlistByUserIdArr;
-                    });
-
-                let playlistSongTbl = document.getElementById("playlist-tbl");
-                console.log('---<', playlistByUserIdArr)
-                let txt = "";
-                txt = "<tr><th>Id</th><th>Song Title</th><th>Actions</th></tr>";
-                let count = 1;
-                for (let i = 0; i < playlistByUserIdArr.songs.length; i++) {
-                    txt += "<tr>";
-                    txt += "<td>" + count++ + "</td>";
-                    txt += "<td>" + playlistByUserIdArr.songs[i].title + "</td>";
-                    txt += "<td>" + "<button type='button' class='btn' onclick='removeFromPlaylist(this)'>" + "Remove" + "</button>" + "</td>";
-                    txt += "</tr>";
-                }
-                playlistSongTbl.innerHTML = txt;
-            };
-
-            document.getElementById('addToPlaylist').onclick = function(){
-                fetch('http://localhost:3000/wap/playlists/users/' + 1, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        songs:[
-                            title= 'dfasf',
-                            songId = 1
-                        ]
-                    }),
-                    headers: {
-                        'Content-type' : 'application/json; charset=UTF-8',
-                    },
-                })
-                .then((response) => response.json())
-                .then((json)=> console.log(json));
-            }
-        }
-    </script>
+   
 </head>
 <body>
 <div>

@@ -2,8 +2,9 @@
   "name": "client",
   "version": "1.0.0",
   "description": "",
-  "main": "resources/main.js",
+  "main": "app.js",
   "scripts": {
+    "start": "PORT=3001 ENV=DEVELOPMENT nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

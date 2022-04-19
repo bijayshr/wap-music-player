@@ -3,9 +3,9 @@ const playlistController = require('../controllers/playlistController');
 
 const router = express.Router();
 
-router.post('/users/:userId', playlistController.addSongInPlaylist);
-router.get('/users/:userId', playlistController.getPlaylistsByUserId);
-router.delete('/songs/:songId/users/:userId', playlistController.removeSongFromPlaylistByUserId);
-router.get('/', playlistController.getPlaylists);
+router.post('/', playlistController.addSongInPlaylist);
+router.get('/', playlistController.getPlaylistsByUsername);
+router.delete('/songs/:songId/', playlistController.removeSongFromPlaylistByUsername);
+router.get('/all', playlistController.getPlaylists);
 
 module.exports = router;

@@ -1,5 +1,7 @@
+const moment = require('moment');
+
 function generateString(username){
-    return username+new Date().toString();
+    return username+ "-" + moment(new Date()).format();
 }
 
 module.exports = {

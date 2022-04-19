@@ -1,0 +1,89 @@
+window.onload = function () {
+
+    document.getElementById('loginBtn').onclick = function(){
+        let uname = document.getElementById('uname').value;
+        let pswd = document.getElementById('pswd').value;
+
+        fetch('http://localhost:3000/wap/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            body: JSON.stringify({
+                username: uname,
+                password: pswd
+            })
+        }).then((response)=>{
+            if(response.status === 200) {
+                return response.json();
+            }
+            throw new Error('Something went wrong, try again later!')
+        }).then(json=>{
+            sessionStorage.setItem('secret', json);
+            // window.location.href = 'http://localhost:3000/wap/dashboard';
+            getInterestedSongsList();
+            getPlaylistsByUserId();
+        }).catch(err=>{
+            console.log('err :: ', err);
+        })
+    };
+
+    async function getInterestedSongsList() {
+        let songs = [];
+        songs = await fetch('http://localhost:3000/wap/songs',{
+            method: 'GET',
+            headers:{
+                'secret':sessionStorage.getItem('secret')
+            },
+        }).then(response => response.json())
+            .then(data => {
+                songs = data
+                console.log('songs :: ', songs);
+                return songs;
+            });
+
+        let interestSongTbl = document.getElementById("interest-song-tbl");
+        interestSongTbl.classList = 'table table-bordered';
+        interestSongTbl.id = 'songs';
+        let tblText = "";
+        tblText = "<tr><th>Id</th><th>Song Title</th><th>Release Date</th><th>Actions</th></tr>";
+        for (let i = 0; i < songs.length; i++) {
+            tblText += "<tr>";
+            tblText += "<td>" + songs[i].songId + "</td>";
+            tblText += "<td>" + songs[i].title + "</td>";
+            tblText += "<td>" + songs[i].releaseDate + "</td>";
+            tblText += "<td>" + "<button id='addToPlaylist' type='button' class='btn' onclick='addToPlaylist(this)'>" + "Add" + "</button>" + "</td>";
+            tblText += "</tr>";
+        }
+        interestSongTbl.innerHTML = tblText;
+    };
+
+    async function getPlaylistsByUserId() {
+        let playlistByUserIdArr = [];
+        playlistByUserIdArr = await fetch('http://localhost:3000/wap/playlists/users/', {
+            method: 'GET',
+            headers:{
+                'secret':sessionStorage.getItem('secret')
+            }
+        }).then(response => response.json())
+            .then(data => {
+                playlistByUserIdArr = data
+                return playlistByUserIdArr;
+            });
+
+        let playlistSongTbl = document.getElementById("playlist-tbl");
+
+        let txt = "";
+        txt = "<tr><th>Id</th><th>Song Title</th><th>Actions</th></tr>";
+        let count = 1;
+        for (let i = 0; i < playlistByUserIdArr.songs.length; i++) {
+            txt += "<tr>";
+            txt += "<td>" + count++ + "</td>";
+            txt += "<td>" + playlistByUserIdArr.songs[i].title + "</td>";
+            txt += "<td>" + "<button type='button' class='btn' onclick='removeFromPlaylist(this)'>" + "Remove" + "</button>" + "</td>";
+            txt += "</tr>";
+        }
+        playlistSongTbl.innerHTML = txt;
+    };
+
+}
