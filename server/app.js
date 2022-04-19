@@ -9,14 +9,16 @@ app.use(express.json());
 const userRouter = require('./routes/userRouter');
 const songRouter = require('./routes/songRouter');
 const playlistRouter = require('./routes/playlistRouter');
+const dashboardRouter = require('./routes/dashboardRouter');
 
 
 app.use('/wap/users', userRouter);
 app.use('/wap/songs', songRouter);
 app.use('/wap/playlists', playlistRouter);
+app.use('/wap/dashboard', dashboardRouter);
 
 app.use((req, res, next)=>{
-    res.status(200).send(`<h1>Hello World</h1>`);
+    res.status(200).send(`<h1>Hello Man</h1>`);
 })
 
 app.use((err, req, res, next)=>{

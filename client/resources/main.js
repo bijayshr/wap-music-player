@@ -14,18 +14,17 @@ window.onload = function () {
                 password: pswd
             })
         }).then((response)=>{
-            if(response.status ===200) {
+            if(response.status === 200) {
                 return response.json();
             }
             throw new Error('Something went wrong, try again later!')
         }).then(json=>{
-            console.log('response :: ', json);
+            console.log('json -->', json);
             sessionStorage.setItem('secret', json);
-            window.location.href = "http://localhost:3000/wap/songs";
+            // window.location.href = "http://localhost:3000/wap/dashboard";
         }).catch(err=>{
             console.log('err :: ', err);
         })
     };
 
-    document.getElementById()
 }

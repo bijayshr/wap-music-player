@@ -25,7 +25,6 @@ exports.getPlaylists = (req, res) =>{
 
 exports.removeSongFromPlaylistByUserId = (req, res) =>{
     let {userId, songId} = req.params;
-
     const response =Playlist.removeSongFromPlaylistByUserId(userId, songId);
     res.status(200).json(response);
 }
