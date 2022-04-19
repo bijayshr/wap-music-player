@@ -5,7 +5,6 @@ exports.authenticateUser = (req, res, next) =>{
  let {username, password} = req.body;
  const secret = User.login(username, password);
  res.status(200).json({secret:secret});
- res.status(200).json({secret:response});
 }
 
 exports.logout = (req,res,next) =>{
