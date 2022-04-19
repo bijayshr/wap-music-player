@@ -1,15 +1,18 @@
 const express = require('express');
+const UserAuth = require('./models/UserAuth');
+const dashboardRouter = require('./routes/dashboardRouter');
+const userRouter = require('./routes/userRouter');
+const songRouter = require('./routes/songRouter');
+const playlistRouter = require('./routes/playlistRouter');
 const app = express();
 
 const cors = require('cors');
+const res = require('express/lib/response');
 app.use(cors());
 
 app.use(express.json());
 
-
-
-const path = require("path");
-
+app.use('/auth', loginRouter);
 
 app.all('/*', (req, res, next) => {
     const secret = req.headers['secret'];
@@ -19,23 +22,20 @@ app.all('/*', (req, res, next) => {
     }
     next();
 });
-const UserAuth = require('./models/UserAuth');
-const dashboardRouter = require('./routes/dashboardRouter');
-const userRouter = require('./routes/userRouter');
-const songRouter = require('./routes/songRouter');
-const playlistRouter = require('./routes/playlistRouter');
 
 app.use('/wap/users', userRouter);
 app.use('/wap/songs', songRouter);
 app.use('/wap/playlists', playlistRouter);
 app.use('/wap/dashboard', dashboardRouter);
 
-
+app.use((req, res, next) => {
+    res.status(404).json({error: '/'+ req.METHOD + ' ' + req.url + 'API not accessible.'});
+});
 
 app.use((err, req, res, next) => {
     res.status(500).send('Something is wrong. Try again later: ' + err);
-})
+});
 
 app.listen(process.env.PORT, () => {
     console.log('Server Listening to Port :: %s', process.env.PORT)
-})
+});
