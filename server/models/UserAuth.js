@@ -1,4 +1,5 @@
 const User = require('./User');
+const Playlist = require('./Playlist');
 const StringUtil = require('../utils/StringGenerator');
 const john = new User('John', 'Snow', 'john', 'john');
 const denerys = new User('Denerys', 'Targarian', 'deneris', 'deneris');
@@ -26,18 +27,17 @@ module.exports = class UserAuth {
         }
     }
 
-    static isAuthenticated(secret){
-        let isAuthenticated = auth.findIndex(user => user.secret==secret);
-        return (isAuthenticated > -1)? true: false;
-  
+    static isAuthenticated(secret) {
+        let isAuthenticated = auth.findIndex(user => user.secret == secret);
+        return (isAuthenticated > -1) ? true : false;
+
     }
 
-    static findUsernameBySecret(secret){
-        let isExist = auth.findIndex(user => user.secret==secret);
-        if (isExist > -1){
+    static findUsernameBySecret(secret) {
+        let isExist = auth.findIndex(user => user.secret == secret);
+        if (isExist > -1) {
             return auth[isExist].username;
-        } 
-        throw new Error ('Invalid Credentials. Please try again!');
+        }
+        throw new Error('Invalid Credentials. Please try again!');
     }
-
 }
