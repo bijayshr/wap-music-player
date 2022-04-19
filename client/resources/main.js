@@ -19,9 +19,8 @@ window.onload = function () {
             }
             throw new Error('Something went wrong, try again later!')
         }).then(json=>{
-            console.log('json -->', json);
             sessionStorage.setItem('secret', json);
-            // window.location.href = "http://localhost:3000/wap/dashboard";
+            window.location.href = "http://localhost:3000/wap/dashboard";
         }).catch(err=>{
             console.log('err :: ', err);
         })
