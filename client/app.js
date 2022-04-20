@@ -73,6 +73,7 @@ window.onload = function () {
       document.getElementById("password").value='';
       document.getElementById("error-login").style.display = "none";
     } else {
+      document.getElementById("error-login").style.display = "inline-block";
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
     }
@@ -326,7 +327,9 @@ window.onload = function () {
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
     // const sampleURL = './public/assets/audio/baby.mp3'
-    audio.setAttribute("src", href); 
+    console.log('-------> Audio Src : ', href);
+    // audio.setAttribute("src", href); 
+    audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
