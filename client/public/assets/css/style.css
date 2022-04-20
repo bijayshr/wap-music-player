@@ -6,6 +6,16 @@ form.login {
     margin-left: auto;
 }
 
+.heading{
+    opacity: 1;
+    font-size: 64px;
+    line-height: 64px;
+    color: rgb(0, 0, 0);
+    margin-bottom: 3rem;
+    margin-right: 3rem;
+}
+
+
 .error-login {
     margin-left: auto;
     color: white;
@@ -141,5 +151,17 @@ footer{
 .btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active, .open>.dropdown-toggle.btn-light {
     color: #101010;
     background-color: rgb(250, 250, 250);
-    border-color: rgba(254, 253, 253); /*set the color you want here*/
+    border-color: rgba(254, 253, 253);
+}
+
+
+.btn-outline-primary{
+    color: #1db954;
+    border-color: #1db954;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active, .btn-outline-primary.active, .open>.dropdown-toggle.btn-outline-primary {
+    color: white;
+    border-color: #1db954;
+    background-color: #1db954;
 }

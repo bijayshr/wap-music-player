@@ -65,7 +65,7 @@ window.onload = function () {
     });
     if (response.hasOwnProperty("secret")) {
       sessionStorage.setItem("secret", response.secret);
-      sessionStorage.setItem("fullname", response.fullname);
+      sessionStorage.setItem("fullname", response.secret.split('-')[0]);
       searchBar();
       displayDashboard();
       document.getElementById("fullname").style.display = "inline-block";
@@ -198,6 +198,7 @@ window.onload = function () {
     const playSong = document.createElement("button");
     playSong.addEventListener("click", function (event) {
       console.log(`Streaming Song ${song.id}`);
+      document.getElementById("footer").style.display = "block"
       audioPlayer(song.href, song.id, song.title, song.releaseDate);
       document.getElementById("play-pause-link").click();
     });
@@ -288,7 +289,7 @@ window.onload = function () {
                               </thead><tbody></tbody>`;
     div.appendChild(playlistTable);
     document.getElementById("container-fluid").appendChild(div);
-    document.getElementById("footer").style.display = "block";
+    // document.getElementById("footer").style.display = "block";
   }
 
   document.getElementById("search").onclick = function () {
@@ -324,8 +325,8 @@ window.onload = function () {
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    const sampleURL = './public/assets/audio/baby.mp3'
-    audio.setAttribute("src", sampleURL); 
+    // const sampleURL = './public/assets/audio/baby.mp3'
+    audio.setAttribute("src", href); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
