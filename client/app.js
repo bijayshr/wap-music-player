@@ -334,10 +334,10 @@ window.onload = function () {
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
     audio.type = "audio/mp3";
-    const sampleURL = './public/assets/audio/baby.mp3'
+    // const sampleURL = './public/assets/audio/baby.mp3'
     console.log('-------> Audio Src : ', href);
     // audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
-    audio.setAttribute("src", sampleURL); 
+    audio.setAttribute("src", href); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
