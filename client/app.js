@@ -60,7 +60,6 @@ window.onload = function () {
         password,
       }),
     }).then((res) => res.json()).catch(err=>{
-      console.log('err');
       document.getElementById("error-login").style.display = "block";
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
@@ -101,6 +100,7 @@ window.onload = function () {
       },
     }).then((response) => response.json());
     sessionStorage.setItem("songs", JSON.stringify(songs));
+    console.log('songs ::: ', songs);
     const songContainer = document.getElementById("song-container");
     if(songContainer){
       document.getElementById("song-container").remove();

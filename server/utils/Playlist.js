@@ -1,7 +1,7 @@
 const Songs = require('./Songs');
 /**
  *
- * RESPONSE SAMPLE OF PLAYLIST
+ * RESPONSE SAMPLE OF BAD PLAYLIST DESIGN
  *
  *
 let playlist = [
