@@ -18,3 +18,6 @@ The project folder `wap-music-player` contains two sub-folders:
 - Node.js
 - Express.js
 - In-memory database (array)
+
+## Project Submitted to
+### [Professor Rujuan Xing (Tina)](https://www.miu.edu/computer-science/faculty-profiles/rujuan-xing) at MIU.
