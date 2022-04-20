@@ -35,16 +35,16 @@ window.onload = function () {
     resetAudio();
   }
 
-  function audioPlayer(source, data, title) {
-    console.log(source);
+  function audioPlayer(href, data, title) {
+    console.debug(' ********* Song location:', href);
     document.getElementById("song-title").innerHTML = title;
     let play = document.getElementById("play-pause-link");
     play.setAttribute("data-id", data);
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    audio.setAttribute("src", source); //change the source
-    audio.load(); //load the new source
+    audio.setAttribute("src", href); 
+    audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
         audio.play();
@@ -258,7 +258,7 @@ window.onload = function () {
     playSong.addEventListener("click", function (event) {
       event.preventDefault();
       console.log(`Playing song ${element.id}`);
-      audioPlayer(element.source, element.id, element.title);
+      audioPlayer(element.href, element.id, element.title);
       document.getElementById("play-pause-link").click();
     });
     playSong.classList = "btn btn-outline-primary play-song";
@@ -279,7 +279,7 @@ window.onload = function () {
         id: element.id,
         title: element.title,
         releaseDate: element.releaseDate,
-        source: element.source,
+        href: element.href,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -381,7 +381,7 @@ window.onload = function () {
       console.log(currentIndex);
       if (currentIndex == 0) {
         audioPlayer(
-            playlists[playlists.length - 1].source,
+            playlists[playlists.length - 1].href,
             playlists[playlists.length - 1].id,
             playlists[playlists.length - 1].title
         );
@@ -389,7 +389,7 @@ window.onload = function () {
       } else {
         currentIndex--;
         audioPlayer(
-            playlists[currentIndex].source,
+            playlists[currentIndex].href,
             playlists[currentIndex].id,
             playlists[currentIndex].title
         );
@@ -409,13 +409,13 @@ window.onload = function () {
       if (currentIndex != playlists.length - 1) {
         currentIndex++;
         audioPlayer(
-            playlists[currentIndex].source,
+            playlists[currentIndex].href,
             playlists[currentIndex].id,
             playlists[currentIndex].title
         );
         document.getElementById("play-pause-link").click();
       } else {
-        audioPlayer(playlists[0].source, playlists[0].id, playlists[0].title);
+        audioPlayer(playlists[0].href, playlists[0].id, playlists[0].title);
         document.getElementById("play-pause-link").click();
       }
     }
@@ -478,7 +478,7 @@ window.onload = function () {
         while (playlists.length > 1 && randomTrack.id == current) {
           randomTrack = playlists[Math.floor(Math.random() * playlists.length)];
         }
-        audioPlayer(randomTrack.source, randomTrack.id, randomTrack.title);
+        audioPlayer(randomTrack.href, randomTrack.id, randomTrack.title);
         document.getElementById("play-pause-link").click();
         break;
       default:

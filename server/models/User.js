@@ -1,6 +1,6 @@
 const StringGenerator = require('../utils/StringGenerator');
 
-users = [
+let users = [
   {
     username: "john",
     password: "john",
@@ -10,19 +10,19 @@ users = [
         id: 1,
         title: "Batman Theme",
         releaseDate: "22022-01-01",
-        source: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
+        href: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
       },
       {
         id: 2,
         title: "Baby Can I hold You Tonight",
         releaseDate: "2016-10-32",
-        source: "https://www.dropbox.com/s/gp79cv8arwph6bj/Tracy%20Chapman%20-%20Baby%20Can%20I%20Hold%20You%20%28Official%20Music%20Video%29.mp3",
+        href: "https://www.dropbox.com/s/gp79cv8arwph6bj/Tracy%20Chapman%20-%20Baby%20Can%20I%20Hold%20You%20%28Official%20Music%20Video%29.mp3",
       },
       {
         id: 3,
         title: "Tenerife Sea",
         releaseDate: "2017-05-15",
-        source:
+        href:
           "https://www.dropbox.com/s/ibu54ya5y5a72rr/Ed%20Sheeran%20-%20Tenerife%20Sea.mp3",
       }
     ],
@@ -33,17 +33,16 @@ users = [
     secret: "",
     playlist: [
       {
-        id: 4,
-        title: "Hotel California",
-        releaseDate: "1998-10-32",
-        source:
-          "https://www.dropbox.com/s/70gthnxuti486r3/Hotel%20California%20%282013%20Remaster%29.mp3",
+        id: 1,
+        title: "Batman Theme",
+        releaseDate: "22022-01-01",
+        href: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
       },
       {
         id: 3,
         title: "Tenerife Sea",
         releaseDate: "2017-05-15",
-        source:
+        href:
             "https://www.dropbox.com/s/ibu54ya5y5a72rr/Ed%20Sheeran%20-%20Tenerife%20Sea.mp3",
       }
     ],
@@ -119,7 +118,7 @@ module.exports = class User {
     let index = users.findIndex((user) => user.secret == secret);
     if(index>-1){
       users[index].secret ='';
-      console.log(`Removed Secret Key`);
+      console.debug(` ******* Removed Secret Key ***********`);
     }
   }
 
