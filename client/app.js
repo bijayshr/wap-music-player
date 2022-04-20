@@ -1,30 +1,14 @@
 window.onload = function () {
-  let audio = new Audio();
+  document.getElementById("footer").style.display = "none";
+  document.getElementById("fullname").style.display = "none";
 
-  let state = {
-    playType: null,
-  };
-
-  function resetAudio() {
-    if (state.playType != null) {
-      document.getElementById(state.playType).style.backgroundColor = "";
-      state.playType = null;
-    }
-    audio.pause();
-    document.getElementById("song-title").innerHTML = "";
-    document.getElementById("current-time").innerHTML = "00:00:00";
-    document.getElementById("finish-time").innerHTML = "00:00:00";
-    audio = new Audio();
-    audio.addEventListener("ended", audioEndListner);
-  }
-
-  function showSearch() {
+  function searchBar() {
     document.getElementById("login-info").classList.remove("d-flex");
     document.getElementById("login-info").style.display = "none";
     document.getElementById("search-info").classList = "d-flex";
   }
 
-  function showLogin() {
+  function displayLogin() {
     document.getElementById("search-info").classList.remove("d-flex");
     document.getElementById("search-info").style.display = "none";
     document.getElementById("login-info").classList = "d-flex";
@@ -32,61 +16,15 @@ window.onload = function () {
     document.getElementById("playlist-container").remove();
     document.getElementById("heading").style.display = "block";
     document.getElementById("footer").style.display = "none";
+    document.getElementById("fullname").style.display = "none";
+    document.getElementById("fullname").style.display = "none";
     resetAudio();
   }
 
-  function audioPlayer(href, data, title) {
-    console.debug(' ********* Song location:', href);
-    document.getElementById("song-title").innerHTML = title;
-    let play = document.getElementById("play-pause-link");
-    play.setAttribute("data-id", data);
-    let currentTime = document.getElementById("current-time");
-    let finishTime = document.getElementById("finish-time");
-    let progressBar = document.getElementById("progress-bar");
-    audio.setAttribute("src", href); 
-    audio.load(); 
-    play.onclick = function () {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    };
-
-    audio.onplay = function () {
-      play.innerHTML = `<i class="fa fa-pause"></i>`;
-    };
-
-    audio.onpause = function () {
-      play.innerHTML = `<i class="fa fa-play"></i>`;
-    };
-
-    audio.onloadedmetadata = function () {
-      currentTime.innerHTML = timeFormat(0);
-      finishTime.innerHTML = timeFormat(audio.duration);
-      progressBar.max = Math.floor(audio.duration);
-      audio.ontimeupdate = function () {
-        progressBar.value = Math.floor(audio.currentTime);
-        currentTime.innerHTML = timeFormat(audio.currentTime);
-      };
-    };
-  }
-
-  function timeFormat(secs) {
-    let ss = Math.floor(secs),
-        hh = Math.floor(ss / 3600),
-        mm = Math.floor((ss - hh * 3600) / 60);
-    ss = ss - hh * 3600 - mm * 60;
-    if (hh > 0) {
-      mm = mm < 10 ? "0" + mm : mm;
-    }
-    ss = ss < 10 ? "0" + ss : ss;
-    return hh > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
-  }
-
   if (sessionStorage.getItem("secret")) {
-    showSearch();
-    renderSongsAndPlaylist();
+    document.getElementById("fullname").style.display = "inline-block";
+    searchBar();
+    displayDashboard();
   }
 
   document.getElementById("logout").onclick = function (event) {
@@ -98,7 +36,7 @@ window.onload = function () {
       },
     }).then((response) => {
       sessionStorage.clear();
-      showLogin();
+      displayLogin();
     });
   };
 
@@ -113,7 +51,7 @@ window.onload = function () {
   };
 
   async function login(username, password) {
-    let result = await fetch("http://localhost:3000/wap/auth/users/login", {
+    let response = await fetch("http://localhost:3000/wap/auth/users/login", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -126,21 +64,24 @@ window.onload = function () {
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
     });
-    if (result.hasOwnProperty("secret")) {
-      sessionStorage.setItem("secret", result.secret);
-      showSearch();
-      renderSongsAndPlaylist();
+    if (response.hasOwnProperty("secret")) {
+      sessionStorage.setItem("secret", response.secret);
+      sessionStorage.setItem("fullname", response.fullname);
+      searchBar();
+      displayDashboard();
+      document.getElementById("fullname").style.display = "inline-block";
       document.getElementById("username").value='';
       document.getElementById("password").value='';
-      document.getElementById("error-login").innerHTML = "";
+      document.getElementById("error-login").style.display = none;
     } else {
-      console.log('why no there!!!!');
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
     }
   }
 
-  async function renderSongsAndPlaylist() {
+  async function displayDashboard() {
+    const name = sessionStorage.getItem('fullname');
+    document.getElementById('fullname').innerText = "("+ name +")";
     await getSongs();
     await getPlaylists();
   }
@@ -212,21 +153,21 @@ window.onload = function () {
     action.append(addSong);
   };
 
-  const addPlaylistRow = (table, element) => {
+  const addPlaylistRow = (table, song) => {
     let row = table.insertRow();
     let id = row.insertCell(0);
     let title = row.insertCell(1);
     let action = row.insertCell(2);
-    id.innerHTML = element.id;
-    title.innerHTML = element.title;
+    id.innerHTML = song.id;
+    title.innerHTML = song.title;
     const actionDiv = document.createElement("div");
     actionDiv.classList = "d-grid gap-2 d-md-flex";
     const removeSong = document.createElement("button");
-    removeSong.setAttribute("data-id", element.id);
+    removeSong.setAttribute("data-id", song.id);
     removeSong.addEventListener("click", function (event) {
       event.preventDefault();
-      console.log(`Removing song ${element.id}`);
-      fetch("http://localhost:3000/wap/playlists/songs/" + element.id, {
+      console.log(`Removing song ${song.id}`);
+      fetch("http://localhost:3000/wap/playlists/songs/" + song.id, {
         method: "DELETE",
         headers: {
           "secret": sessionStorage.getItem("secret"),
@@ -237,7 +178,7 @@ window.onload = function () {
         }
         row.remove();
         let playlist = JSON.parse(sessionStorage.getItem("playlists"));
-        let index = playlist.findIndex((song) => song.id == element.id);
+        let index = playlist.findIndex((song) => song.id == song.id);
         if (index > -1) {
           playlist.splice(index, 1);
         }
@@ -247,7 +188,7 @@ window.onload = function () {
         }
         sessionStorage.setItem("playlists", JSON.stringify(playlist));
         let currentPlay = document.getElementById("play-pause-link").dataset.id;
-        if (currentPlay == element.id) {
+        if (currentPlay == song.id) {
           resetAudio();
         }
       });
@@ -257,8 +198,8 @@ window.onload = function () {
     const playSong = document.createElement("button");
     playSong.addEventListener("click", function (event) {
       event.preventDefault();
-      console.log(`Playing song ${element.id}`);
-      audioPlayer(element.href, element.id, element.title);
+      console.log(`Streaming Song ${song.id}`);
+      audioPlayer(song.href, song.id, song.title, song.releaseDate);
       document.getElementById("play-pause-link").click();
     });
     playSong.classList = "btn btn-outline-primary play-song";
@@ -351,6 +292,94 @@ window.onload = function () {
     document.getElementById("footer").style.display = "block";
   }
 
+
+  document.getElementById("search").onclick = function () {
+    const searchItem = document.getElementById("search-song").value;
+    if (!searchItem) {
+      return;
+    }
+    getSongs(searchItem);
+  };
+
+  document.getElementById("logo").onclick = function (event) {
+    event.preventDefault();
+    displayDashboard();
+  };
+
+  
+
+/************************************** AUDIO  ************************************** */
+
+  let audio = new Audio();
+  audio.crossOrigin = 'anonymous';
+
+  let state = {
+    playType: null,
+  };
+
+  function resetAudio() {
+    if (state.playType != null) {
+      document.getElementById(state.playType).style.backgroundColor = "";
+      state.playType = null;
+    }
+    audio.pause();
+    document.getElementById("song-title").innerHTML = "";
+    document.getElementById("current-time").innerHTML = "00:00:00";
+    document.getElementById("finish-time").innerHTML = "00:00:00";
+    audio = new Audio();
+    audio.addEventListener("ended", audioEndListner);
+  }
+
+  function audioPlayer(href, data, title, releaseDate) {
+    console.log('########### STARTING AUDIO ############')
+    document.getElementById("song-title").innerHTML = title;
+    document.getElementById("song-date").innerText = releaseDate;
+    let play = document.getElementById("play-pause-link");
+    play.setAttribute("data-id", data);
+    let currentTime = document.getElementById("current-time");
+    let finishTime = document.getElementById("finish-time");
+    let progressBar = document.getElementById("progress-bar");
+    audio.setAttribute("src", href); 
+    audio.load(); 
+    play.onclick = function () {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    };
+
+    audio.onplay = function () {
+      play.innerHTML = `<i class="fa fa-pause"></i>`;
+    };
+
+    audio.onpause = function () {
+      play.innerHTML = `<i class="fa fa-play"></i>`;
+    };
+
+    audio.onloadedmetadata = function () {
+      currentTime.innerHTML = timeFormat(0);
+      finishTime.innerHTML = timeFormat(audio.duration);
+      progressBar.max = Math.floor(audio.duration);
+      audio.ontimeupdate = function () {
+        progressBar.value = Math.floor(audio.currentTime);
+        currentTime.innerHTML = timeFormat(audio.currentTime);
+      };
+    };
+  }
+
+  function timeFormat(secs) {
+    let ss = Math.floor(secs),
+        hh = Math.floor(ss / 3600),
+        mm = Math.floor((ss - hh * 3600) / 60);
+    ss = ss - hh * 3600 - mm * 60;
+    if (hh > 0) {
+      mm = mm < 10 ? "0" + mm : mm;
+    }
+    ss = ss < 10 ? "0" + ss : ss;
+    return hh > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
+  }
+
   function emptyPlaylist() {
     if(document.getElementById("playlist-container")){
       document.getElementById("playlist-container").remove();
@@ -383,7 +412,8 @@ window.onload = function () {
         audioPlayer(
             playlists[playlists.length - 1].href,
             playlists[playlists.length - 1].id,
-            playlists[playlists.length - 1].title
+            playlists[playlists.length - 1].title,
+            playlists[playlists.length - 1].releaseDate,
         );
         document.getElementById("play-pause-link").click();
       } else {
@@ -411,11 +441,12 @@ window.onload = function () {
         audioPlayer(
             playlists[currentIndex].href,
             playlists[currentIndex].id,
-            playlists[currentIndex].title
+            playlists[currentIndex].title,
+            playlists[currentIndex].releaseDate
         );
         document.getElementById("play-pause-link").click();
       } else {
-        audioPlayer(playlists[0].href, playlists[0].id, playlists[0].title);
+        audioPlayer(playlists[0].href, playlists[0].id, playlists[0].title, playlists[0].releaseDate);
         document.getElementById("play-pause-link").click();
       }
     }
@@ -478,7 +509,7 @@ window.onload = function () {
         while (playlists.length > 1 && randomTrack.id == current) {
           randomTrack = playlists[Math.floor(Math.random() * playlists.length)];
         }
-        audioPlayer(randomTrack.href, randomTrack.id, randomTrack.title);
+        audioPlayer(randomTrack.href, randomTrack.id, randomTrack.title, randomTrack.releaseDate);
         document.getElementById("play-pause-link").click();
         break;
       default:
@@ -486,19 +517,5 @@ window.onload = function () {
   };
 
   audio.addEventListener("ended", audioEndListner);
-
-  document.getElementById("search").onclick = function () {
-    const searchItem = document.getElementById("search-song").value;
-    if (!searchItem) {
-      return;
-    }
-    getSongs(searchItem);
-  };
-
-  document.getElementById("logo").onclick = function (event) {
-    event.preventDefault();
-    renderSongsAndPlaylist();
-  };
-
 
 };

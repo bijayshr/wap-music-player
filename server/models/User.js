@@ -2,14 +2,15 @@ const StringGenerator = require('../utils/StringGenerator');
 
 let users = [
   {
-    username: "john",
-    password: "john",
+    fullname: "White Walker",
+    username: "admin",
+    password: "admin",
     secret: "",
     playlist: [
       {
         id: 1,
         title: "Batman Theme",
-        releaseDate: "22022-01-01",
+        releaseDate: "2022-01-01",
         href: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
       },
       {
@@ -28,6 +29,7 @@ let users = [
     ],
   },
   {
+    fullname: "Bijay Shrestha",
     username: "bijay",
     password: "bijay",
     secret: "",
@@ -35,7 +37,7 @@ let users = [
       {
         id: 1,
         title: "Batman Theme",
-        releaseDate: "22022-01-01",
+        releaseDate: "2022-01-01",
         href: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
       },
       {
@@ -48,6 +50,7 @@ let users = [
     ],
   },
   {
+    fullname: "Matt Demon",
     username: "matt",
     password: "matt",
     access_token: "",
@@ -69,7 +72,8 @@ let users = [
 ];
 
 module.exports = class User {
-  constructor(username, password, playlist) {
+  constructor(firstname, username, password, playlist) {
+    this.firstname = firstname;
     this.username = username;
     this.password = password;
     this.playlist = playlist;
@@ -131,6 +135,6 @@ module.exports = class User {
     }
     let secret = StringGenerator.generateString(username);
     users[index].secret = secret;
-    return secret;
+    return users[index];
   }
 };

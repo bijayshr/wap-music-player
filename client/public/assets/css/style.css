@@ -5,11 +5,19 @@
 form.login {
     margin-left: auto;
 }
+
 .error-login {
     margin-left: auto;
-    color: #ff0000;
-    margin-right: 20px
+    color: white;
+    margin-right: 10px;
+    font-size: 1em;
+    position: absolute;
+    top:10px;
+    right:50%;
+    background: rgb(189, 40, 40);
+    padding:10px;
 }
+
 #search-info {
     display: none;
 }
@@ -22,9 +30,9 @@ form.login {
     width:350px;
 }
 
-header {
+/* header {
     background-color: #212529;
-}
+} */
 
 form.login label {
     margin-bottom: 0px;
@@ -75,7 +83,7 @@ footer{
     font-weight: bold;
 }
 
-.song-details .song-date{
+.song-details .song-date-sm{
     font-size: 0.8rem;
     opacity: 0.6;
 }
@@ -113,7 +121,7 @@ footer{
     font-size: 1rem;
 }
 
-.song-block-sm .song-details .song-title{
+.song-block-sm .song-details .song-title-sm{
     font-size: 1rem;
     font-weight: normal;
 }
@@ -125,3 +133,4 @@ footer{
 .navbar{
     background-color: var(--bs-primary-dark);
 }
+

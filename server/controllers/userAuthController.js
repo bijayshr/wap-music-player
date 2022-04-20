@@ -3,8 +3,8 @@ const User = require('../models/User');
 
 exports.authenticateUser = (req, res, next) =>{
  let {username, password} = req.body;
- const secret = User.login(username, password);
- res.status(200).json({secret:secret});
+ const user = User.login(username, password);
+ res.status(200).json({secret:user.secret,fullname:user.fullname});
 }
 
 exports.logout = (req,res,next) =>{
