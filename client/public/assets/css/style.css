@@ -1,3 +1,7 @@
+:root{
+    --bs-primary:#1db954;
+    --bs-primary-dark:#076f2c;
+}
 form.login {
     margin-left: auto;
 }
@@ -27,6 +31,97 @@ form.login label {
     color: #ffffff;
 }
 
-footer {
+/* footer {
     display: none;
+} */
+
+footer{
+    display: block;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.song-container{
+    padding-top: 2rem;
+}
+
+.player-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.album-cover{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 5rem;
+    background: rgba(255,255, 255, 0.1);
+    font-size: 2rem;
+}
+
+.song-block{
+    display: flex;
+}
+.song-details{
+    text-align: left;
+    padding-left: 1rem; 
+}
+
+.song-details .song-title{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.song-details .song-date{
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.player-progress-bar{
+    display: flex;
+}
+
+.player-container .btn{
+    color: white;
+}
+
+.player-container .btn:hover{
+    color: var(--bs-primary);
+}
+
+.btn-play-pause{
+    font-size: 2rem;
+}
+
+.player-progress-bar .time{
+    font-size: 0.8rem;
+    opacity: 0.8;
+    padding: 0 0.4rem 0 0.4rem;
+}
+
+.progress-bar{
+    min-width: 16rem;
+}
+
+.song-block-sm .album-cover{
+    width: 2.8rem;
+    height: 2.8rem;
+    background: rgba(0,0, 0, 0.1);
+    font-size: 1rem;
+}
+
+.song-block-sm .song-details .song-title{
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.player-container-footer{
+    background-color: var(--bs-primary-dark);
+}
+
+.navbar{
+    background-color: var(--bs-primary-dark);
 }
