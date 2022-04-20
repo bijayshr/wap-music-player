@@ -55,7 +55,7 @@ let users = [
     fullname: "Matt Demon",
     username: "matt",
     password: "matt",
-    access_token: "",
+    secret: "",
     playlist: [
       {
         id: 1,
