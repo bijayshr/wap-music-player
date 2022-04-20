@@ -24,7 +24,7 @@ let songs = [
         title: 'Hotel California',
         releaseDate: '1998-10-32',
         // href: 'https://www.dropbox.com/s/70gthnxuti486r3/Hotel%20California%20%282013%20Remaster%29.mp3'
-        href: 'https://actions.google.com/sounds/v1/cartoon/cowbell_ringing.ogg'
+        href: 'https://actions.google.com/sounds/v1/foley/bottle_cap_open.ogg'
     },
     {
         id: 5,
