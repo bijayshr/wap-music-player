@@ -122,6 +122,7 @@ module.exports = class User {
     let index = users.findIndex((user) => user.secret == secret);
     if(index>-1){
       users[index].secret ='';
+      users[index].fullname = ''
       console.debug(` ******* Removed Secret Key ***********`);
     }
   }

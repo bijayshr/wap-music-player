@@ -194,9 +194,9 @@ window.onload = function () {
     });
     removeSong.classList = "btn btn-outline-danger remove-song";
     removeSong.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+
     const playSong = document.createElement("button");
     playSong.addEventListener("click", function (event) {
-      event.preventDefault();
       console.log(`Streaming Song ${song.id}`);
       audioPlayer(song.href, song.id, song.title, song.releaseDate);
       document.getElementById("play-pause-link").click();
@@ -315,19 +315,6 @@ window.onload = function () {
     playType: null,
   };
 
-  function resetAudio() {
-    if (state.playType != null) {
-      document.getElementById(state.playType).style.backgroundColor = "";
-      state.playType = null;
-    }
-    audio.pause();
-    document.getElementById("song-title").innerHTML = "";
-    document.getElementById("current-time").innerHTML = "00:00:00";
-    document.getElementById("finish-time").innerHTML = "00:00:00";
-    audio = new Audio();
-    audio.addEventListener("ended", audioEndListner);
-  }
-
   function audioPlayer(href, data, title, releaseDate) {
     console.log('########### STARTING AUDIO ############')
     document.getElementById("song-title").innerHTML = title;
@@ -337,7 +324,8 @@ window.onload = function () {
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    audio.setAttribute("src", href); 
+    const sampleURL = './public/assets/audio/baby.mp3'
+    audio.setAttribute("src", sampleURL); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
@@ -364,6 +352,19 @@ window.onload = function () {
         currentTime.innerHTML = timeFormat(audio.currentTime);
       };
     };
+  }
+
+  function resetAudio() {
+    if (state.playType != null) {
+      document.getElementById(state.playType).style.backgroundColor = "";
+      state.playType = null;
+    }
+    audio.pause();
+    document.getElementById("song-title").innerHTML = "";
+    document.getElementById("current-time").innerHTML = "00:00:00";
+    document.getElementById("finish-time").innerHTML = "00:00:00";
+    audio = new Audio();
+    audio.addEventListener("ended", audioEndListner);
   }
 
   function timeFormat(secs) {
@@ -460,7 +461,8 @@ window.onload = function () {
       document.getElementById(state.playType).style.backgroundColor = "";
     }
     state.playType = "infinite";
-    this.style.backgroundColor = "salmon";
+    this.style.backgroundColor = "#1DB954";
+    this.style.borderRadius = "25px"
     audio.loop = false;
   };
 
@@ -475,7 +477,8 @@ window.onload = function () {
       document.getElementById(state.playType).style.backgroundColor = "";
     }
     state.playType = "single-infinite";
-    this.style.backgroundColor = "salmon";
+    this.style.backgroundColor = "#1DB954";
+    this.style.borderRadius = "25px"
     audio.loop = true;
   };
 
@@ -489,7 +492,8 @@ window.onload = function () {
       document.getElementById(state.playType).style.backgroundColor = "";
     }
     state.playType = "shuffle";
-    this.style.backgroundColor = "salmon";
+    this.style.backgroundColor = "#1DB954";
+    this.style.borderRadius = "25px"
     audio.loop = false;
   };
 
