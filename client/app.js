@@ -190,7 +190,7 @@ window.onload = function () {
         },
       }).then((response) => {
         if (response.status == 200) {
-          console.log("Delete successfully", "warning");
+          console.log("Song Deleted successfully!!");
         }
         row.remove();
         let playlist = JSON.parse(sessionStorage.getItem("playlists"));
@@ -235,10 +235,11 @@ window.onload = function () {
         if (sessionStorage.getItem("playlists") == null) {
           sessionStorage.setItem("playlists", JSON.stringify([]));
         }
-        let songIndex = JSON.parse(
+        let isSongExist = JSON.parse(
             sessionStorage.getItem("playlists")
-        ).findIndex((song) => song.id == song.id);
-        if (songIndex < 0) {
+        ).findIndex((s) => s.id == song.id);
+        console.log('sng index :: ', isSongExist);
+        if (isSongExist < 0) {
           if (JSON.parse(sessionStorage.getItem("playlists")).length == 0) {
             document.getElementById("playlist-container").remove();
             playlistTables();
@@ -250,7 +251,7 @@ window.onload = function () {
           let playlist = JSON.parse(sessionStorage.getItem("playlists"));
           playlist.push(song);
           sessionStorage.setItem("playlists", JSON.stringify(playlist));
-          console.log("Added successfully", "success");
+          console.log("Song Added Successfully!");
         }
       }
     });
@@ -333,10 +334,6 @@ window.onload = function () {
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    audio.type = "audio/mp3";
-    // const sampleURL = './public/assets/audio/baby.mp3'
-    console.log('-------> Audio Src : ', href);
-    // audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
     audio.setAttribute("src", href); 
     audio.load(); 
     play.onclick = function () {
