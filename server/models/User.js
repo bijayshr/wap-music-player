@@ -8,43 +8,44 @@ users = [
     playlist: [
       {
         id: 1,
-        title: "What is Love?",
-        releaseDate: "2019-09-08",
-        source: "https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg",
+        title: "Batman Theme",
+        releaseDate: "22022-01-01",
+        source: "https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3",
       },
       {
         id: 2,
         title: "Baby Can I hold You Tonight",
         releaseDate: "2016-10-32",
-        source: "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg",
+        source: "https://www.dropbox.com/s/gp79cv8arwph6bj/Tracy%20Chapman%20-%20Baby%20Can%20I%20Hold%20You%20%28Official%20Music%20Video%29.mp3",
       },
       {
         id: 3,
         title: "Tenerife Sea",
         releaseDate: "2017-05-15",
         source:
-          "https://actions.google.com/sounds/v1/alarms/setting_alarm_clock.ogg",
+          "https://www.dropbox.com/s/ibu54ya5y5a72rr/Ed%20Sheeran%20-%20Tenerife%20Sea.mp3",
       }
     ],
   },
   {
-    username: "a",
-    password: "a",
+    username: "bijay",
+    password: "bijay",
     secret: "",
     playlist: [
       {
         id: 4,
-        title: "Hotel Californication",
+        title: "Hotel California",
         releaseDate: "1998-10-32",
         source:
-          "https://actions.google.com/sounds/v1/ambiences/outside_night.ogg",
+          "https://www.dropbox.com/s/70gthnxuti486r3/Hotel%20California%20%282013%20Remaster%29.mp3",
       },
       {
-        id: 5,
-        title: "Intersteller",
-        releaseDate: "2021-07-32",
-        source: "https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg",
-      },
+        id: 3,
+        title: "Tenerife Sea",
+        releaseDate: "2017-05-15",
+        source:
+            "https://www.dropbox.com/s/ibu54ya5y5a72rr/Ed%20Sheeran%20-%20Tenerife%20Sea.mp3",
+      }
     ],
   },
   {
@@ -53,17 +54,16 @@ users = [
     access_token: "",
     playlist: [
       {
-        id: 6,
-        title: "Life of Bijay S",
-        releaseDate: "2014-10-32",
-        source:
-          "https://actions.google.com/sounds/v1/ambiences/outside_night.ogg",
+        id: 1,
+        title: 'Batman Theme',
+        releaseDate: '2022-01-01',
+        href: 'https://www.dropbox.com/s/3vxg6iy3zym09y2/Batman%20Theme%20%282022%29%20But%20only%20the%20Good%20Part.mp3'
       },
       {
-        id: 7,
-        title: "Mission Impossible",
-        releaseDate: "1996-07-32",
-        source: "https://actions.google.com/sounds/v1/cartoon/clown_horn.ogg",
+        id: 5,
+        title: 'Intersteller',
+        releaseDate: '2021-07-32',
+        href: 'https://www.dropbox.com/s/0wr881rxa47s4qm/Interstellar%20-%20Main%20Theme%20-%20Hans%20Zimmer%20%28Epic%20instrumental_piano%20cover%29.mp3'
       },
     ],
   },
@@ -76,7 +76,7 @@ module.exports = class User {
     this.playlist = playlist;
   }
 
-  static hasAccess(secret) {
+  static isAuthenticated(secret) {
     let index = users.findIndex((user) => user.secret == secret);
     if (index >= 0) {
       return true;

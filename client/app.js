@@ -35,15 +35,16 @@ window.onload = function () {
     resetAudio();
   }
 
-  function audioPlayer(href, data, title) {
+  function audioPlayer(source, data, title) {
+    console.log(source);
     document.getElementById("song-title").innerHTML = title;
     let play = document.getElementById("play-pause-link");
     play.setAttribute("data-id", data);
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    audio.setAttribute("src", href); 
-    audio.load(); 
+    audio.setAttribute("src", source); //change the source
+    audio.load(); //load the new source
     play.onclick = function () {
       if (audio.paused) {
         audio.play();
@@ -73,8 +74,8 @@ window.onload = function () {
 
   function timeFormat(secs) {
     let ss = Math.floor(secs),
-      hh = Math.floor(ss / 3600),
-      mm = Math.floor((ss - hh * 3600) / 60);
+        hh = Math.floor(ss / 3600),
+        mm = Math.floor((ss - hh * 3600) / 60);
     ss = ss - hh * 3600 - mm * 60;
     if (hh > 0) {
       mm = mm < 10 ? "0" + mm : mm;
@@ -121,21 +122,21 @@ window.onload = function () {
         username,
         password,
       }),
-    }).then((res) => res.json()).catch(err => {
+    }).then((res) => res.json()).catch(err=>{
       document.getElementById("error-login").innerHTML =
-        "Invalid Username or Password";
+          "Invalid Username or Password";
     });
     if (result.hasOwnProperty("secret")) {
       sessionStorage.setItem("secret", result.secret);
-      sessionStorage.setItem('username', username);
       showSearch();
       renderSongsAndPlaylist();
-      document.getElementById("username").value = '';
-      document.getElementById("password").value = '';
+      document.getElementById("username").value='';
+      document.getElementById("password").value='';
       document.getElementById("error-login").innerHTML = "";
     } else {
+      console.log('why no there!!!!');
       document.getElementById("error-login").innerHTML =
-        "Invalid Username or Password";
+          "Invalid Username or Password";
     }
   }
 
@@ -146,9 +147,9 @@ window.onload = function () {
 
   async function getSongs(filter = "") {
     const url = filter
-      ? "http://localhost:3000/wap/songs?searchQuery=" + filter
-      : "http://localhost:3000/wap/songs";
-    const title = filter ? "Result of '" + filter + "'" : "Songs you may interested in, " + sessionStorage.getItem('username');
+        ? "http://localhost:3000/wap/songs?searchQuery=" + filter
+        : "http://localhost:3000/wap/songs";
+    const title = filter ? "Result of '" + filter+"'" : "Songs you may interested";
     let songs = await fetch(url, {
       method: "GET",
       headers: {
@@ -157,13 +158,13 @@ window.onload = function () {
     }).then((response) => response.json());
     sessionStorage.setItem("songs", JSON.stringify(songs));
     const songContainer = document.getElementById("song-container");
-    if (songContainer) {
+    if(songContainer){
       document.getElementById("song-container").remove();
     }
     createSongTable(title);
     let songListTable = document
-      .getElementById("song-list")
-      .getElementsByTagName("tbody")[0];
+        .getElementById("song-list")
+        .getElementsByTagName("tbody")[0];
     songs.forEach((element) => {
       addSongRow(songListTable, element, (event) => {
         event.preventDefault();
@@ -190,8 +191,8 @@ window.onload = function () {
                               </thead><tbody></tbody>`;
     div.appendChild(songTable);
     document
-      .getElementById("container-fluid")
-      .insertBefore(div, document.getElementById("container-fluid").firstChild);
+        .getElementById("container-fluid")
+        .insertBefore(div, document.getElementById("container-fluid").firstChild);
   };
 
   const addSongRow = (table, element, callback) => {
@@ -206,26 +207,26 @@ window.onload = function () {
     const addSong = document.createElement("button");
     addSong.setAttribute("data-id", element.id);
     addSong.addEventListener("click", callback);
-    addSong.classList = "btn btn-sm";
-    addSong.innerHTML = '<i class="fa-solid fa-plus"></i>';
+    addSong.classList = "btn btn-outline-secondary";
+    addSong.innerHTML = '<i class="fa-solid fa-circle-plus"></i> Add to Playlist';
     action.append(addSong);
   };
 
-  const addPlaylistRow = (table, song) => {
+  const addPlaylistRow = (table, element) => {
     let row = table.insertRow();
     let id = row.insertCell(0);
     let title = row.insertCell(1);
     let action = row.insertCell(2);
-    id.innerHTML = song.id;
-    title.innerHTML = song.title;
+    id.innerHTML = element.id;
+    title.innerHTML = element.title;
     const actionDiv = document.createElement("div");
     actionDiv.classList = "d-grid gap-2 d-md-flex";
     const removeSong = document.createElement("button");
-    removeSong.setAttribute("data-id", song.id);
+    removeSong.setAttribute("data-id", element.id);
     removeSong.addEventListener("click", function (event) {
       event.preventDefault();
-      console.log(`Removing song ${song.id}`);
-      fetch("http://localhost:3000/wap/playlists/songs/" + song.id, {
+      console.log(`Removing song ${element.id}`);
+      fetch("http://localhost:3000/wap/playlists/songs/" + element.id, {
         method: "DELETE",
         headers: {
           "secret": sessionStorage.getItem("secret"),
@@ -236,7 +237,7 @@ window.onload = function () {
         }
         row.remove();
         let playlist = JSON.parse(sessionStorage.getItem("playlists"));
-        let index = playlist.findIndex((s) => s.id == song.id);
+        let index = playlist.findIndex((song) => song.id == element.id);
         if (index > -1) {
           playlist.splice(index, 1);
         }
@@ -246,28 +247,28 @@ window.onload = function () {
         }
         sessionStorage.setItem("playlists", JSON.stringify(playlist));
         let currentPlay = document.getElementById("play-pause-link").dataset.id;
-        if (currentPlay == song.id) {
+        if (currentPlay == element.id) {
           resetAudio();
         }
       });
     });
-    removeSong.classList = "btn btn-sm remove-song";
-    removeSong.innerHTML = '<i class="fa-solid fa-minus"></i>';
+    removeSong.classList = "btn btn-outline-danger remove-song";
+    removeSong.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
     const playSong = document.createElement("button");
     playSong.addEventListener("click", function (event) {
       event.preventDefault();
-      console.log(`Playing song ${song.id}`);
-      audioPlayer(song.href, song.id, song.title);
+      console.log(`Playing song ${element.id}`);
+      audioPlayer(element.source, element.id, element.title);
       document.getElementById("play-pause-link").click();
     });
-    playSong.classList = "btn btn-sm play-song";
-    playSong.innerHTML = '<i class="fa-solid fa-play"></i>';
+    playSong.classList = "btn btn-outline-primary play-song";
+    playSong.innerHTML = '<i class="fa-solid fa-play"></i> Play';
     actionDiv.append(removeSong);
     actionDiv.append(playSong);
     action.append(actionDiv);
   };
 
-  async function addSongToPlayList(song) {
+  async function addSongToPlayList(element) {
     const result = await fetch("http://localhost:3000/wap/playlists/songs", {
       method: "POST",
       headers: {
@@ -275,10 +276,10 @@ window.onload = function () {
         "secret": sessionStorage.getItem("secret"),
       },
       body: JSON.stringify({
-        id: song.id,
-        title: song.title,
-        releaseDate: song.releaseDate,
-        href: song.href,
+        id: element.id,
+        title: element.title,
+        releaseDate: element.releaseDate,
+        source: element.source,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -286,19 +287,19 @@ window.onload = function () {
           sessionStorage.setItem("playlists", JSON.stringify([]));
         }
         let songIndex = JSON.parse(
-          sessionStorage.getItem("playlists")
-        ).findIndex((song) => song.id == song.id);
+            sessionStorage.getItem("playlists")
+        ).findIndex((song) => song.id == element.id);
         if (songIndex < 0) {
           if (JSON.parse(sessionStorage.getItem("playlists")).length == 0) {
             document.getElementById("playlist-container").remove();
             playlistTables();
           }
           let playlistTable = document
-            .getElementById("playlist")
-            .getElementsByTagName("tbody")[0];
-          addPlaylistRow(playlistTable, song);
+              .getElementById("playlist")
+              .getElementsByTagName("tbody")[0];
+          addPlaylistRow(playlistTable, element);
           let playlist = JSON.parse(sessionStorage.getItem("playlists"));
-          playlist.push(song);
+          playlist.push(element);
           sessionStorage.setItem("playlists", JSON.stringify(playlist));
           console.log("Added successfully", "success");
         }
@@ -317,8 +318,8 @@ window.onload = function () {
       sessionStorage.setItem("playlists", JSON.stringify(playlists));
       playlistTables();
       let playListTable = document
-        .getElementById("playlist")
-        .getElementsByTagName("tbody")[0];
+          .getElementById("playlist")
+          .getElementsByTagName("tbody")[0];
       playlists.forEach((element) => {
         addPlaylistRow(playListTable, element);
       });
@@ -328,7 +329,7 @@ window.onload = function () {
   }
 
   function playlistTables() {
-    if (document.getElementById("playlist-container")) {
+    if(document.getElementById("playlist-container")){
       document.getElementById("playlist-container").remove();
     }
     const div = document.createElement("div");
@@ -351,7 +352,7 @@ window.onload = function () {
   }
 
   function emptyPlaylist() {
-    if (document.getElementById("playlist-container")) {
+    if(document.getElementById("playlist-container")){
       document.getElementById("playlist-container").remove();
     }
     document.getElementById("footer").style.display = "none";
@@ -380,17 +381,17 @@ window.onload = function () {
       console.log(currentIndex);
       if (currentIndex == 0) {
         audioPlayer(
-          playlists[playlists.length - 1].source,
-          playlists[playlists.length - 1].id,
-          playlists[playlists.length - 1].title
+            playlists[playlists.length - 1].source,
+            playlists[playlists.length - 1].id,
+            playlists[playlists.length - 1].title
         );
         document.getElementById("play-pause-link").click();
       } else {
         currentIndex--;
         audioPlayer(
-          playlists[currentIndex].source,
-          playlists[currentIndex].id,
-          playlists[currentIndex].title
+            playlists[currentIndex].source,
+            playlists[currentIndex].id,
+            playlists[currentIndex].title
         );
         document.getElementById("play-pause-link").click();
       }
@@ -399,6 +400,7 @@ window.onload = function () {
 
   document.getElementById("next").onclick = function () {
     let data = document.getElementById("play-pause-link").dataset.id;
+    console.log("current id", data);
     if (data) {
       let playlists = JSON.parse(sessionStorage.getItem("playlists"));
       console.log(playlists);
@@ -407,9 +409,9 @@ window.onload = function () {
       if (currentIndex != playlists.length - 1) {
         currentIndex++;
         audioPlayer(
-          playlists[currentIndex].source,
-          playlists[currentIndex].id,
-          playlists[currentIndex].title
+            playlists[currentIndex].source,
+            playlists[currentIndex].id,
+            playlists[currentIndex].title
         );
         document.getElementById("play-pause-link").click();
       } else {
@@ -463,6 +465,7 @@ window.onload = function () {
   };
 
   const audioEndListner = () => {
+    console.log("audio has been ended");
     switch (state.playType) {
       case "infinite":
         document.getElementById("next").click();
@@ -471,7 +474,7 @@ window.onload = function () {
         const current = document.getElementById("play-pause-link").dataset.id;
         let playlists = JSON.parse(sessionStorage.getItem("playlists"));
         let randomTrack =
-          playlists[Math.floor(Math.random() * playlists.length)];
+            playlists[Math.floor(Math.random() * playlists.length)];
         while (playlists.length > 1 && randomTrack.id == current) {
           randomTrack = playlists[Math.floor(Math.random() * playlists.length)];
         }
@@ -486,14 +489,16 @@ window.onload = function () {
 
   document.getElementById("search").onclick = function () {
     const searchItem = document.getElementById("search-song").value;
-    if (searchItem || searchItem == '') {
-      getSongs(searchItem);
-    };
+    if (!searchItem) {
+      return;
+    }
+    getSongs(searchItem);
+  };
 
-    document.getElementById("logo").onclick = function (event) {
-      event.preventDefault();
-      renderSongsAndPlaylist();
-    };
-  }
+  document.getElementById("logo").onclick = function (event) {
+    event.preventDefault();
+    renderSongsAndPlaylist();
+  };
 
-}
+
+};

@@ -15,7 +15,7 @@ app.use('/wap/auth/users/', userAuthRouter);
 
 app.all('/*', (req, res, next) => {
     const secret = req.headers['secret'];
-    if (!User.hasAccess(secret)) {
+    if (!User.isAuthenticated(secret)) {
         return res.status(400).send("Invalid Request.");
     }
     next();
