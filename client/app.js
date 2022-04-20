@@ -328,8 +328,8 @@ window.onload = function () {
     let progressBar = document.getElementById("progress-bar");
     // const sampleURL = './public/assets/audio/baby.mp3'
     console.log('-------> Audio Src : ', href);
-    // audio.setAttribute("src", href); 
-    audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
+    // audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
+    audio.setAttribute("src", href); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
