@@ -165,6 +165,19 @@ window.onload = function () {
     title.innerHTML = song.title;
     const actionDiv = document.createElement("div");
     actionDiv.classList = "d-grid gap-2 d-md-flex";
+
+     /** PLAY SONGS */
+    const playSong = document.createElement("button");
+    playSong.addEventListener("click", function (event) {
+      console.log(`Streaming Song ${song.id}`);
+      document.getElementById("footer").style.display = "block"
+      audioPlayer(song.href, song.id, song.title, song.releaseDate);
+      document.getElementById("play-pause-link").click();
+    });
+    playSong.classList = "btn btn-outline-primary play-song";
+    playSong.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+
+    /** DELETE SONGS */
     const removeSong = document.createElement("button");
     removeSong.setAttribute("data-id", song.id);
     removeSong.addEventListener("click", function (event) {
@@ -199,17 +212,8 @@ window.onload = function () {
     removeSong.classList = "btn btn-outline-danger remove-song";
     removeSong.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
 
-    const playSong = document.createElement("button");
-    playSong.addEventListener("click", function (event) {
-      console.log(`Streaming Song ${song.id}`);
-      document.getElementById("footer").style.display = "block"
-      audioPlayer(song.href, song.id, song.title, song.releaseDate);
-      document.getElementById("play-pause-link").click();
-    });
-    playSong.classList = "btn btn-outline-primary play-song";
-    playSong.innerHTML = '<i class="fa-solid fa-play"></i> Play';
-    actionDiv.append(removeSong);
     actionDiv.append(playSong);
+    actionDiv.append(removeSong);
     action.append(actionDiv);
   };
 
