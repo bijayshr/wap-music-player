@@ -217,7 +217,7 @@ window.onload = function () {
     action.append(actionDiv);
   };
 
-  async function addSongToPlayList(element) {
+  async function addSongToPlayList(song) {
     const result = await fetch("http://localhost:3000/wap/playlists/songs", {
       method: "POST",
       headers: {
@@ -225,10 +225,10 @@ window.onload = function () {
         "secret": sessionStorage.getItem("secret"),
       },
       body: JSON.stringify({
-        id: element.id,
-        title: element.title,
-        releaseDate: element.releaseDate,
-        href: element.href,
+        id: song.id,
+        title: song.title,
+        releaseDate: song.releaseDate,
+        href: song.href,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -237,7 +237,7 @@ window.onload = function () {
         }
         let songIndex = JSON.parse(
             sessionStorage.getItem("playlists")
-        ).findIndex((song) => song.id == element.id);
+        ).findIndex((song) => song.id == song.id);
         if (songIndex < 0) {
           if (JSON.parse(sessionStorage.getItem("playlists")).length == 0) {
             document.getElementById("playlist-container").remove();
@@ -246,9 +246,9 @@ window.onload = function () {
           let playlistTable = document
               .getElementById("playlist")
               .getElementsByTagName("tbody")[0];
-          addPlaylistRow(playlistTable, element);
+          addPlaylistRow(playlistTable, song);
           let playlist = JSON.parse(sessionStorage.getItem("playlists"));
-          playlist.push(element);
+          playlist.push(song);
           sessionStorage.setItem("playlists", JSON.stringify(playlist));
           console.log("Added successfully", "success");
         }
@@ -333,10 +333,11 @@ window.onload = function () {
     let currentTime = document.getElementById("current-time");
     let finishTime = document.getElementById("finish-time");
     let progressBar = document.getElementById("progress-bar");
-    // const sampleURL = './public/assets/audio/baby.mp3'
+    audio.type = "audio/mp3";
+    const sampleURL = './public/assets/audio/baby.mp3'
     console.log('-------> Audio Src : ', href);
     // audio.setAttribute("src", "https://www.learningcontainer.com/wp-content/uploads/2020/02/Sample-OGG-File.ogg"); 
-    audio.setAttribute("src", href); 
+    audio.setAttribute("src", sampleURL); 
     audio.load(); 
     play.onclick = function () {
       if (audio.paused) {
