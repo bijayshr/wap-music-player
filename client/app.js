@@ -1,6 +1,5 @@
 window.onload = function () {
   document.getElementById("footer").style.display = "none";
-  document.getElementById("fullname").style.display = "none";
 
   function searchBar() {
     document.getElementById("login-info").classList.remove("d-flex");
@@ -17,7 +16,7 @@ window.onload = function () {
     document.getElementById("heading").style.display = "block";
     document.getElementById("footer").style.display = "none";
     document.getElementById("fullname").style.display = "none";
-    document.getElementById("fullname").style.display = "none";
+    document.getElementById("error-login").style.display = "none";
     resetAudio();
   }
 
@@ -72,7 +71,7 @@ window.onload = function () {
       document.getElementById("fullname").style.display = "inline-block";
       document.getElementById("username").value='';
       document.getElementById("password").value='';
-      document.getElementById("error-login").style.display = none;
+      document.getElementById("error-login").style.display = "none";
     } else {
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
@@ -292,11 +291,10 @@ window.onload = function () {
     document.getElementById("footer").style.display = "block";
   }
 
-
   document.getElementById("search").onclick = function () {
     const searchItem = document.getElementById("search-song").value;
-    if (!searchItem) {
-      return;
+    if (searchItem == "") {
+      getSongs();
     }
     getSongs(searchItem);
   };
