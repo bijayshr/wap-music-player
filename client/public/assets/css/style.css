@@ -133,3 +133,14 @@ footer{
     background-color: var(--bs-primary-dark);
 }
 
+.btn-light {
+    color: #101010;
+    background-color: rgb(254, 254, 254);
+    border-color: #fff; /*set the color you want here*/
+}
+.btn-light:hover, .btn-light:focus, .btn-light:active, .btn-light.active, .open>.dropdown-toggle.btn-light {
+    color: #101010;
+    background-color: rgb(250, 250, 250);
+    border-color: rgba(254, 253, 253); /*set the color you want here*/
+}
+
