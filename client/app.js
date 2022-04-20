@@ -60,10 +60,13 @@ window.onload = function () {
         password,
       }),
     }).then((res) => res.json()).catch(err=>{
+      console.log('err');
+      document.getElementById("error-login").style.display = "block";
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
     });
     if (response.hasOwnProperty("secret")) {
+      console.log('RESPONSE :: ', response);
       sessionStorage.setItem("secret", response.secret);
       sessionStorage.setItem("fullname", response.secret.split('-')[0]);
       searchBar();
@@ -73,7 +76,7 @@ window.onload = function () {
       document.getElementById("password").value='';
       document.getElementById("error-login").style.display = "none";
     } else {
-      document.getElementById("error-login").style.display = "inline-block";
+      document.getElementById("error-login").style.display = "block";
       document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
     }
