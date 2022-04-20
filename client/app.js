@@ -91,7 +91,7 @@ window.onload = function () {
   
     document.getElementById("logout").onclick = function (event) {
       event.preventDefault();
-      fetch("http://localhost:3000/auth/logout", {
+      fetch("http://localhost:3000/wap/auth/users/logout", {
         method: "POST",
         headers: {
           "secret": sessionStorage.getItem("secret"),
@@ -109,12 +109,11 @@ window.onload = function () {
       if (username == "" || password == "") {
         return;
       }
-      console.log("Sending credentials to server");
       login(username, password);
     };
   
     async function login(username, password) {
-      let result = await fetch("http://localhost:3000/wap/users/login", {
+      let result = await fetch("http://localhost:3000/wap/auth/users/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -123,7 +122,10 @@ window.onload = function () {
           username,
           password,
         }),
-      }).then((res) => res.json());
+      }).then((res) => res.json()).catch(err=>{
+        document.getElementById("error-login").innerHTML =
+        "Invalid Username or Password";
+      });
       if (result.hasOwnProperty("secret")) {
         sessionStorage.setItem("secret", result.secret);
         showSearch();
@@ -132,6 +134,7 @@ window.onload = function () {
         document.getElementById("password").value='';
         document.getElementById("error-login").innerHTML = "";
       } else {
+        console.log('why no there!!!!');
         document.getElementById("error-login").innerHTML =
           "Invalid Username or Password";
       }
@@ -144,7 +147,7 @@ window.onload = function () {
   
     async function getSongs(filter = "") {
       const url = filter
-        ? "http://localhost:3000/wap/songs?keyword=" + filter
+        ? "http://localhost:3000/wap/songs?searchQuery=" + filter
         : "http://localhost:3000/wap/songs";
       const title = filter ? "Result of '" + filter+"'" : "Songs you may interested";
       let songs = await fetch(url, {
@@ -223,14 +226,14 @@ window.onload = function () {
       removeSong.addEventListener("click", function (event) {
         event.preventDefault();
         console.log(`Removing song ${element.id}`);
-        fetch("http://localhost:3000/wap/playlists/" + element.id, {
+        fetch("http://localhost:3000/wap/playlists/songs/" + element.id, {
           method: "DELETE",
           headers: {
             "secret": sessionStorage.getItem("secret"),
           },
         }).then((response) => {
           if (response.status == 200) {
-            alert("Delete successfully");
+            console.log("Delete successfully", "warning");
           }
           row.remove();
           let playlist = JSON.parse(sessionStorage.getItem("playlists"));
@@ -266,7 +269,7 @@ window.onload = function () {
     };
   
     async function addSongToPlayList(element) {
-      const result = await fetch("http://localhost:3000/wap/playlists", {
+      const result = await fetch("http://localhost:3000/wap/playlists/songs", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -298,7 +301,7 @@ window.onload = function () {
             let playlist = JSON.parse(sessionStorage.getItem("playlists"));
             playlist.push(element);
             sessionStorage.setItem("playlists", JSON.stringify(playlist));
-            alert("Added successfully");
+            console.log("Added successfully", "success");
           }
         }
       });

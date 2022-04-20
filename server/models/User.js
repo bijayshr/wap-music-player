@@ -4,7 +4,7 @@ users = [
   {
     username: "john",
     password: "john",
-    access_token: "",
+    secret: "",
     playlist: [
       {
         id: 1,
@@ -30,7 +30,7 @@ users = [
   {
     username: "a",
     password: "a",
-    access_token: "",
+    secret: "",
     playlist: [
       {
         id: 4,
@@ -76,8 +76,8 @@ module.exports = class User {
     this.playlist = playlist;
   }
 
-  static hasAccess(token) {
-    let index = users.findIndex((user) => user.access_token == token);
+  static hasAccess(secret) {
+    let index = users.findIndex((user) => user.secret == secret);
     if (index >= 0) {
       return true;
     }
